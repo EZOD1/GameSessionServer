@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-
 var sessionSchema = mongoose.Schema({
     // _id: mongoose.Schema.ObjectId,
     session_id: {
@@ -8,7 +7,7 @@ var sessionSchema = mongoose.Schema({
         unique: true
     },
     host_ip: String,
-    host_port:String,
+    host_port:Number,
     host_id:String,
     session_name:String,
     max_players: Number,
