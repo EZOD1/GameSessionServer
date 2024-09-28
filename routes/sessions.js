@@ -4,6 +4,12 @@ var Session = require('../models/session');
 var makeId = require('../modules/makeId');
 var checkSessionIdCorrect = require('../modules/checkSessionIdCorrect')
 
+// Clear database after server restart
+async function clearDB () {
+  var clearDBQuery = Session.deleteMany();
+  await clearDBQuery.exec();
+}
+clearDB();
 
 // POST requests
 // POST request /sessions/
