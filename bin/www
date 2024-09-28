@@ -7,7 +7,7 @@ const options = {
   cert: fs.readFileSync("../certificate/server.crt")
 };
 const server = https.createServer(options, app);
-server.listen(3000, function(req, res) {'Server started'})
+server.listen(3000)
 
 // server.listen(port);
 // server.on('error', onError);

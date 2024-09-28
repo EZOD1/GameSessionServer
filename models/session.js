@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
 var sessionSchema = mongoose.Schema({
-    // _id: mongoose.Schema.ObjectId,
     session_id: {
         type:String, 
         unique: true

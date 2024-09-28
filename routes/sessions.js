@@ -4,6 +4,7 @@ var Session = require('../models/session');
 var makeId = require('../modules/makeId');
 var checkSessionIdCorrect = require('../modules/checkSessionIdCorrect')
 
+
 // POST requests
 // POST request /sessions/
 router.post('/', async function(req, res, next) {
@@ -35,7 +36,6 @@ router.post('/', async function(req, res, next) {
   };
 
   res.json(201, {session_id: session.session_id});
-  next();
 });
 
 // POST request /sessions/join 
@@ -43,7 +43,7 @@ router.post('/join', async function(req, res, next) {
   // Getting session_id and password from request body
   var session_id = req.body['session_id'];
   var password = req.body['password'] || null;
-  
+
   // Сhecking the id for presence in the database
   if (!await checkSessionIdCorrect(session_id)) {
     res.status(500).send('The session_id is either incorrect or missing')
@@ -64,7 +64,7 @@ router.post('/join', async function(req, res, next) {
   try {
     var session = (await query.exec())[0];
   } catch (error) {
-    res.status(500).send(error.name);
+    res.status(500).send(error);
     return;
   };
 
@@ -91,7 +91,6 @@ router.post('/join', async function(req, res, next) {
   };
 
   res.status(200).json({'host_ip': session['host_ip'], 'host_port': session['host_port']});
-  next();
 });
 
 // POST request /sessions/leave 
@@ -138,7 +137,6 @@ router.post('/leave', async function(req, res, next) {
     query = Session.deleteOne({'session_id': session_id});
     await query.exec();
   };
-  next();
 });
 
 // POST request /sessions/close
@@ -161,12 +159,11 @@ router.post('/close', async function(req, res, next) {
     return;
   };
 
-  res.status(200).send('Session has been deleted');
-  next();
+  res.status(204).send('Session has been deleted');
 });
 
-// POST request /sessions/change_status
-router.post('/change_status', async function(req, res, next) {
+// PUT request /sessions/change_status
+router.put('/change_status', async function(req, res, next) {
   // Getting session_id and status from request body
   var session_id = req.body['session_id'];
   var status = req.body['status'] || null;
@@ -205,7 +202,6 @@ router.post('/change_status', async function(req, res, next) {
   };
 
   res.status(200).send('Session status has been updated');
-  next();
 });
 
 // GET requests
@@ -225,14 +221,12 @@ router.get('/', async function(req, res, next) {
   // Gettins a sessions
   try {
     var activeSessions = (await query.exec());
-    console.log(activeSessions);
   } catch (error) {
     res.status(500).send(error.name);
     return;
   };
 
-  res.status(200).send(activeSessions);
-  next();
+  res.status(200).json(activeSessions);
 });
 
 module.exports = router;

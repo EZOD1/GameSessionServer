@@ -11,7 +11,7 @@ async function checkSessionIdCorrect(session_id) {
   try {
     var session = (await query.exec())[0];
   } catch (error) {
-    logMyErrors(error);
+    console.log(error);
     return;
   };
   // If session not found
