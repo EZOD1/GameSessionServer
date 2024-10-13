@@ -1,13 +1,16 @@
 var https = require('https'); 
 var app = require('../app');
 var fs = require('fs'); 
+require("dotenv").config();
+const PORT = process.env.PORT;
 
 const options = {
-  key: fs.readFileSync("../certificate/server.key"),
-  cert: fs.readFileSync("../certificate/server.crt")
+  key: fs.readFileSync("./certificate/server.key"),
+  cert: fs.readFileSync("./certificate/server.crt")
 };
+
 const server = https.createServer(options, app);
-server.listen(3000)
+server.listen(PORT)
 
 // server.listen(port);
 // server.on('error', onError);
