@@ -1,6 +1,6 @@
 require("dotenv").config();
 var mongoose = require('mongoose');
-const dbURI = (process.env.MONGODB_URI);
+const dbURI = (process.env.MONGODB_URI + '/' + process.env.DB_NAME);
 
 mongoose.connect(dbURI);
 
