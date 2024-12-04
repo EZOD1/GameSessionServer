@@ -22,7 +22,7 @@ router.post('/', async function(req, res, next) {
   var session = new Session({
     session_id: makeId(), 
     host_ip: host_ip, 
-    host_port:req.socket.remotePort,
+    host_port:req.body['host_port'],
     host_id:req.body['host_id'] || null,
     session_name:req.body['session_name'],
     max_players: req.body['max_players'] || 1,

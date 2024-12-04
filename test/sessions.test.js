@@ -4,6 +4,7 @@ var should = require('should');
 var postData = {
   password: '12323',
   host_id: 'test',
+  host_port: '2311',
   session_name: 'test_name', 
   max_players: 20,
   session_id:'',

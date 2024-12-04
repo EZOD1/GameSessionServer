@@ -2,8 +2,8 @@ services:
   # Mongo_db service
   mongo_db:
     container_name: db_container
-    image: mongo:4.4.6
-    restart: always
+    image: mongo:latest
+    restart: unless-stopped
     ports:
       - 27017:27017
     volumes:
