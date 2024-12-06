@@ -1,6 +1,5 @@
 require("dotenv").config();
 const SERVER_IP = process.env.SERVER_IP;
-// const USERNAME = process.env.USERNAME;
 const PATHTOKEY = process.env.PATH_TO_SSHKEY;
 const { NodeSSH } = require('node-ssh');
 const ssh = new NodeSSH();
@@ -10,7 +9,6 @@ async function connectToServer() {
       // Настройка подключения
       await ssh.connect({
           host: SERVER_IP,          // Адрес целевого сервера
-          // username: USERNAME,              // Имя пользователя
           privateKey: PATHTOKEY, // Путь к приватному ключу (локально на прокси)
       });
 
