@@ -2,18 +2,36 @@ var https = require('https');
 var app = require('../app');
 var fs = require('fs'); 
 require("dotenv").config();
-const PORT = process.env.PORT;
+const SERVER_IP = process.env.SERVER_IP;
+const USERNAME = process.env.USERNAME;
+const PATHTOKEY = process.env.PATH_TO_SSHKEY;
+const { NodeSSH } = require('node-ssh');
+const ssh = new NodeSSH();
 
-const options = {
-  key: fs.readFileSync("./certificate/privateKey.key.pem"),
-  cert: fs.readFileSync("./certificate/certificate.crt.pem")
-};
+async function connectToServer() {
+  try {
+      // Настройка подключения
+      await ssh.connect({
+          host: SERVER_IP,          // Адрес целевого сервера
+          username: USERNAME,              // Имя пользователя
+          privateKey: PATHTOKEY, // Путь к приватному ключу (локально на прокси)
+      });
 
-const server = https.createServer(options, app);
-server.listen(PORT)
+      console.log('Connected to target server!');
 
-// server.listen(port);
-// server.on('error', onError);
-// server.on('listening', onListening);
+      // Выполнение команды на удаленном сервере
+      const result = await ssh.execCommand('ls -la', { cwd: '/home/user' });
+      console.log('STDOUT:', result.stdout);
+      console.log('STDERR:', result.stderr);
+  } catch (err) {
+      console.error('Error:', err);
+  } finally {
+      ssh.dispose(); // Завершение соединения
+  }
+}
+
+connectToServer();
+
+
 
 
